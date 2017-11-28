@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/btn_csss"
+        android:text="下载"
+        android:layout_width="100dip"
+        android:layout_height="50dip" />
+    <Button
+        android:id="@+id/btn_pause"
+        android:text="暂停"
+        android:layout_width="100dip"
+        android:layout_height="50dip" />
+    <Button
+        android:id="@+id/btn_goon"
+        android:text="继续"
+        android:layout_width="100dip"
+        android:layout_height="50dip" />
+</LinearLayout>

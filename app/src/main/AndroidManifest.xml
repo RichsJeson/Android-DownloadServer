@@ -1,0 +1,45 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="richsjeson.com.downloadmanagerlistener">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.richsjeson.filedownload.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="com.richsjeson.filedownload.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED" />
+    <uses-permission android:name="com.richsjeson.filedownload.permission.SEND_DOWNLOAD_COMPLETED_INTENTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <permission
+        android:name="com.richsjeson.filedownload.permission.ACCESS_DOWNLOAD_MANAGER"
+        android:protectionLevel="normal" />
+
+    <!-- Allows advanced access to the Download Manager -->
+    <permission
+        android:name="com.richsjeson.filedownload.ACCESS_DOWNLOAD_MANAGER_ADVANCED"
+        android:protectionLevel="normal" />
+
+    <!-- Allows to send broadcasts on download completion -->
+    <permission
+        android:name="com.richsjeson.filedownload.SEND_DOWNLOAD_COMPLETED_INTENTS"
+        android:protectionLevel="normal" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+        <provider android:name="android.support.v4.content.FileProvider" android:grantUriPermissions="true" android:exported="false" android:authorities="com.nd.pptshell.fileprovider">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_path"/>
+        </provider>
+        <provider
+            android:name="com.richsjeson.filedownload.api.DownloadProvider"
+            android:authorities="com.richsjeson.filedownload" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+            </intent-filter>
+        </activity>
+        <service android:name="com.richsjeson.filedownload.api.DownloadService" />
+    </application>
+</manifest>
