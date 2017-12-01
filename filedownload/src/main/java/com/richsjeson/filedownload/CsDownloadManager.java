@@ -97,7 +97,7 @@ public class CsDownloadManager implements  ICsDownloadManager {
 //        if(canDownloadAttachment(mContext)){
             DownloadManager.Request request=new DownloadManager.Request(Uri.parse(downloadPath));
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
-            request.setDestinationInExternalPublicDir("download","download12345666666777.pptx");
+            request.setDestinationInExternalPublicDir("download","1510928212888.pptx");
 //            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
             request.setMimeType("application/vnd.ms-powerpoint");
             long downloadId=mDownloadManager.enqueue(request);

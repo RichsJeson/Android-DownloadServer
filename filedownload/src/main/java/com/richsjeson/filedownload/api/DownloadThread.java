@@ -302,6 +302,8 @@ public class DownloadThread extends Thread {
 	private void cleanupDestination(State state, int finalStatus) {
 		closeDestination(state);
 		if (state.mFilename != null && Downloads.isStatusError(finalStatus)) {
+			//文件被删除
+			Log.i(TAG,"cleanupDestination 文件被删除");
 			new File(state.mFilename).delete();
 			state.mFilename = null;
 		}
@@ -672,15 +674,17 @@ public class DownloadThread extends Thread {
 		int finalStatus;
 		if (Downloads.isStatusError(statusCode)) {
 			finalStatus = statusCode;
+			throw new StopRequest(finalStatus, "http error " + statusCode);
 		} else if (statusCode >= 300 && statusCode < 400) {
 			finalStatus = Downloads.STATUS_UNHANDLED_REDIRECT;
+			throw new StopRequest(finalStatus, "http error " + statusCode);
 		} else if (innerState.mContinuingDownload
 				&& statusCode == Downloads.STATUS_SUCCESS) {
 			finalStatus = Downloads.STATUS_CANNOT_RESUME;
 		} else {
 			finalStatus = Downloads.STATUS_UNHANDLED_HTTP_CODE;
+			throw new StopRequest(finalStatus, "http error " + statusCode);
 		}
-		throw new StopRequest(finalStatus, "http error " + statusCode);
 	}
 
 	/**
@@ -808,16 +812,19 @@ public class DownloadThread extends Thread {
 			}
 			// We're resuming a download that got interrupted
 			File f = new File(state.mFilename);
+			Log.i(TAG,"文件操作");
 			if (f.exists()) {
 				long fileLength = f.length();
 				if (fileLength == 0) {
 					// The download hadn't actually started, we can restart from
 					// scratch
+					Log.i(TAG,"文件被删除");
 					f.delete();
 					state.mFilename = null;
 				} else if (mInfo.mETag == null && !mInfo.mNoIntegrity) {
 					// This should've been caught upon failure
 					f.delete();
+					Log.i(TAG,"文件被删除2");
 					throw new StopRequest(Downloads.STATUS_CANNOT_RESUME,
 							"Trying to resume a download that can't be resumed");
 				} else {
@@ -831,6 +838,7 @@ public class DownloadThread extends Thread {
 										+ exc.toString(), exc);
 					}
 					innerState.mBytesSoFar = (int) fileLength;
+					Log.i(TAG,"innerState.mBytesSoFar:"+innerState.mBytesSoFar);
 					if (mInfo.mTotalBytes != -1) {
 						innerState.mHeaderContentLength = Long
 								.toString(mInfo.mTotalBytes);
@@ -863,9 +871,9 @@ public class DownloadThread extends Thread {
 				requestBuilder.addHeader("If-Match", innerState.mHeaderETag);
 
 			}
-			requestBuilder.addHeader("Range", "bytes=" + innerState.mBytesSoFar + "-");
+			requestBuilder.addHeader("Range", "bytes=" + innerState.mBytesSoFar + "-"+mInfo.mTotalBytes);
 		}
-		requestBuilder.build();;
+		requestBuilder.build();
 	}
 
 	/**

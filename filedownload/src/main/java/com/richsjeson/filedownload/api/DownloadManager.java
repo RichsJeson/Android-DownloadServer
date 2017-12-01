@@ -940,7 +940,7 @@ public class DownloadManager {
 					.moveToNext()) {
 				int status = cursor
 						.getInt(cursor.getColumnIndex(COLUMN_STATUS));
-				if (status != STATUS_PAUSED) {
+				if (status != STATUS_PAUSED && status != STATUS_FAILED) {
 					throw new IllegalArgumentException(
 							"Cann only resume a paused download: "
 									+ cursor.getLong(cursor

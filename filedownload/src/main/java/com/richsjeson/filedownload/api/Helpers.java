@@ -120,6 +120,9 @@ public class Helpers {
 			throw new GenerateSaveFileError(
 					Downloads.STATUS_FILE_ALREADY_EXISTS_ERROR,
 					"requested destination file already exists");
+
+			//如果文件存在，则检测MD5值
+
 		}
 		if (getAvailableBytes(getFilesystemRoot(path)) < contentLength) {
 			throw new GenerateSaveFileError(

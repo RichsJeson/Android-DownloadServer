@@ -516,6 +516,9 @@ public final class Downloads implements BaseColumns {
      */
     public static final String COLUMN_ERROR_CODE = "error_code";
 
+
+    public static final String COLUMN_FILE_MD5= "error_code";
+
     /*
      * Lists the destinations that an application can specify for a download.
      */
@@ -710,8 +713,9 @@ public final class Downloads implements BaseColumns {
 
     /**
      * Some possibly transient error occurred, but we can't resume the download.
+     * 不能被重置，可执行断点下下载
      */
-    public static final int STATUS_CANNOT_RESUME = 489;
+    public static final int STATUS_CANNOT_RESUME = 3001;
 
     /**
      * This download was canceled
